@@ -4,14 +4,24 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Layout from '@/layout/index.vue'
 
 // 导入页面组件
-import Dashboard from '@/views/Dashboard/index.vue'
-import Farm from '@/views/Farm/index.vue'
-import Plot from '@/views/Plot/index.vue'
-import Adoption from '@/views/Adoption/index.vue'
-import Product from '@/views/Product/index.vue'
-import Order from '@/views/Order/index.vue'
-import User from '@/views/User/index.vue'
-import System from '@/views/System/index.vue'
+import Dashboard from '@/views/dashboard/index.vue'
+
+// 导入设置页面组件
+import Settings from '@/views/settings/index.vue'
+
+// 导入用户管理页面组件
+import SystemUser from '@/views/system/user/list.vue'
+
+// 导入角色管理页面组件
+import SystemRole from '@/views/system/role/list.vue'
+
+// 导入权限管理页面组件
+import SystemPermission from '@/views/system/permission/list.vue'
+
+
+// 用户模块
+// 导入用户个人中心模块
+import UserProfile from '@/views/user/profile.vue'
 
 const routes = [
   {
@@ -27,154 +37,66 @@ const routes = [
           title: '仪表盘',
           icon: 'Odometer'
         }
-      }
-    ]
-  },
-  {
-    path: '/farm',
-    component: Layout,
-    redirect: '/farm/list',
-    meta: {
-      title: '农场管理',
-      icon: 'House'
-    },
-    children: [
+      },
       {
-        path: 'list',
-        name: 'FarmList',
-        component: Farm,
+        path: 'profile',
+        name: 'Profile',
+        component: UserProfile,
         meta: {
-          title: '农场列表',
-          icon: 'List'
-        }
-      }
-    ]
-  },
-  {
-    path: '/plot',
-    component: Layout,
-    redirect: '/plot/list',
-    meta: {
-      title: '地块管理',
-      icon: 'MapLocation'
-    },
-    children: [
-      {
-        path: 'list',
-        name: 'PlotList',
-        component: Plot,
-        meta: {
-          title: '地块列表',
-          icon: 'List'
-        }
-      }
-    ]
-  },
-  {
-    path: '/adoption',
-    component: Layout,
-    redirect: '/adoption/list',
-    meta: {
-      title: '认养项目',
-      icon: 'Present'
-    },
-    children: [
-      {
-        path: 'list',
-        name: 'AdoptionList',
-        component: Adoption,
-        meta: {
-          title: '认养项目列表',
-          icon: 'List'
-        }
-      }
-    ]
-  },
-  {
-    path: '/product',
-    component: Layout,
-    redirect: '/product/category',
-    meta: {
-      title: '农产品管理',
-      icon: 'Apple'
-    },
-    children: [
-      {
-        path: 'category',
-        name: 'ProductCategory',
-        component: Product,
-        meta: {
-          title: '农产品分类',
-          icon: 'Menu'
+          title: '个人中心',
+          icon: 'User',
+          hidden: true // 隐藏在侧边栏菜单中
         }
       },
       {
-        path: 'list',
-        name: 'ProductList',
-        component: Product,
+        path: 'settings',
+        name: 'Settings',
+        component: Settings,
         meta: {
-          title: '农产品列表',
-          icon: 'List'
+          title: '账户设置',
+          icon: 'Setting',
+          hidden: true // 隐藏在侧边栏菜单中
         }
       }
     ]
   },
-  {
-    path: '/order',
-    component: Layout,
-    redirect: '/order/list',
-    meta: {
-      title: '订单管理',
-      icon: 'ShoppingBag'
-    },
-    children: [
-      {
-        path: 'list',
-        name: 'OrderList',
-        component: Order,
-        meta: {
-          title: '订单列表',
-          icon: 'List'
-        }
-      }
-    ]
-  },
-  {
-    path: '/user',
-    component: Layout,
-    redirect: '/user/list',
-    meta: {
-      title: '用户管理',
-      icon: 'User'
-    },
-    children: [
-      {
-        path: 'list',
-        name: 'UserList',
-        component: User,
-        meta: {
-          title: '用户列表',
-          icon: 'List'
-        }
-      }
-    ]
-  },
+
+
+
   {
     path: '/system',
     component: Layout,
-    redirect: '/system/audit',
+    redirect: '/system/user',
     meta: {
       title: '系统管理',
-      icon: 'Setting'
+      icon: 'Tools'
     },
     children: [
       {
-        path: 'audit',
-        name: 'SystemAudit',
-        component: System,
+        path: 'user',
+        name: 'SystemUser',
+        component: SystemUser,
         meta: {
-          title: '审核管理',
-          icon: 'CircleCheck'
+          title: '用户管理',
+          icon: 'User'
+        }
+      },
+      {
+        path: 'role',
+        name: 'SystemRole',
+        component: SystemRole,
+        meta: {
+          title: '角色管理',
+          icon: 'Avatar'
+        }
+      },
+      {
+        path: 'permission',
+        name: 'SystemPermission',
+        component: SystemPermission,
+        meta: {
+          title: '权限管理',
+          icon: 'Key'
         }
       }
     ]

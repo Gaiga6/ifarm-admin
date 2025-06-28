@@ -88,6 +88,45 @@ body {
   border-color: var(--primary-dark) !important;
 }
 
+/* 文字按钮样式 */
+.el-button.is-text {
+  color: var(--primary-color) !important;
+  background-color: transparent !important;
+  border: none !important;
+}
+
+.el-button.is-text:hover {
+  color: var(--primary-dark) !important;
+  background-color: var(--primary-light) !important;
+}
+
+.el-button.is-text.el-button--primary {
+  color: var(--primary-color) !important;
+}
+
+.el-button.is-text.el-button--primary:hover {
+  color: var(--primary-dark) !important;
+  background-color: var(--primary-light) !important;
+}
+
+.el-button.is-text.el-button--warning {
+  color: var(--warning-color) !important;
+}
+
+.el-button.is-text.el-button--warning:hover {
+  color: #E65100 !important;
+  background-color: #FFF3E0 !important;
+}
+
+.el-button.is-text.el-button--danger {
+  color: var(--error-color) !important;
+}
+
+.el-button.is-text.el-button--danger:hover {
+  color: #C62828 !important;
+  background-color: #FFEBEE !important;
+}
+
 /* 开关样式 */
 .el-switch.is-checked .el-switch__core {
   background-color: var(--primary-color) !important;
@@ -100,9 +139,29 @@ body {
   box-shadow: var(--shadow-medium) !important;
 }
 
-.el-dropdown-menu__item:hover {
+.el-dropdown-menu__item {
+  color: var(--text-primary) !important;
+  background-color: transparent !important;
+}
+
+.el-dropdown-menu__item:hover,
+.el-dropdown-menu__item:focus {
   background-color: var(--primary-light) !important;
   color: var(--primary-dark) !important;
+}
+
+.el-dropdown-menu__item.is-disabled {
+  color: var(--text-placeholder) !important;
+}
+
+/* 强制覆盖Element Plus CSS变量 */
+.el-dropdown-menu {
+  --el-color-primary: var(--primary-color) !important;
+  --el-color-primary-light-3: var(--primary-light) !important;
+  --el-color-primary-light-5: var(--primary-light) !important;
+  --el-color-primary-light-7: var(--primary-light) !important;
+  --el-color-primary-light-8: var(--primary-light) !important;
+  --el-color-primary-light-9: var(--primary-light) !important;
 }
 
 /* 输入框样式 */
@@ -154,6 +213,33 @@ body {
   border-color: var(--primary-dark) !important;
 }
 
+/* 分页样式 */
+.el-pagination {
+  --el-color-primary: var(--primary-color) !important;
+}
+
+.el-pagination .el-pager li:hover {
+  color: var(--primary-color) !important;
+}
+
+.el-pagination .el-pager li.is-active {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+}
+
+.el-pagination .btn-next:hover,
+.el-pagination .btn-prev:hover {
+  color: var(--primary-color) !important;
+}
+
+.el-pagination .el-select .el-input .el-input__wrapper {
+  box-shadow: 0 0 0 1px var(--border-color) inset !important;
+}
+
+.el-pagination .el-select .el-input .el-input__wrapper:hover {
+  box-shadow: 0 0 0 1px var(--primary-color) inset !important;
+}
+
 /* 抽屉样式 */
 .el-drawer {
   border-radius: 12px 0 0 12px !important;
@@ -171,6 +257,24 @@ body {
   color: var(--text-primary) !important;
 }
 
+/* 表格样式 */
+.el-table {
+  --el-color-primary: var(--primary-color) !important;
+}
+
+.el-table .el-table__header-wrapper th {
+  background-color: var(--bg-secondary) !important;
+  color: var(--text-primary) !important;
+}
+
+.el-table .el-table__row:hover {
+  background-color: var(--primary-light) !important;
+}
+
+.el-table .el-table__row.current-row {
+  background-color: var(--primary-light) !important;
+}
+
 /* 标签样式 */
 .el-tag {
   border-radius: 6px !important;
@@ -180,6 +284,24 @@ body {
   background-color: var(--primary-light) !important;
   border-color: var(--primary-color) !important;
   color: var(--primary-dark) !important;
+}
+
+.el-tag--success {
+  background-color: #E8F5E9 !important;
+  border-color: var(--success-color) !important;
+  color: var(--success-color) !important;
+}
+
+.el-tag--warning {
+  background-color: #FFF3E0 !important;
+  border-color: var(--warning-color) !important;
+  color: var(--warning-color) !important;
+}
+
+.el-tag--danger {
+  background-color: #FFEBEE !important;
+  border-color: var(--error-color) !important;
+  color: var(--error-color) !important;
 }
 
 /* 自定义样式类 */

@@ -28,8 +28,13 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useAppStore } from '@/stores'
 import { User, ArrowDown, Setting, SwitchButton } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
+
+const router = useRouter()
+const appStore = useAppStore()
 
 // 用户信息
 const userInfo = ref({
@@ -41,10 +46,26 @@ const userInfo = ref({
 const handleCommand = async (command) => {
   switch (command) {
     case 'profile':
-      ElMessage.info('跳转到个人中心')
+      // 跳转到个人中心
+      router.push('/profile')
+      // 添加到标签页
+      appStore.addVisitedView({
+        path: '/profile',
+        name: 'Profile',
+        title: '个人中心',
+        icon: 'User'
+      })
       break
     case 'settings':
-      ElMessage.info('跳转到账户设置')
+      // 跳转到账户设置
+      router.push('/settings')
+      // 添加到标签页
+      appStore.addVisitedView({
+        path: '/settings',
+        name: 'Settings',
+        title: '账户设置',
+        icon: 'Setting'
+      })
       break
     case 'logout':
       try {
@@ -53,8 +74,16 @@ const handleCommand = async (command) => {
           cancelButtonText: '取消',
           type: 'warning'
         })
+        
+        // 清除所有标签页
+        appStore.removeAllViews()
+        
+        // 这里可以添加退出登录的逻辑
+        // 比如清除token、重定向到登录页等
         ElMessage.success('退出登录成功')
-        // 这里添加退出登录逻辑
+        
+        // 跳转到首页
+        router.push('/dashboard')
       } catch {
         // 用户取消
       }

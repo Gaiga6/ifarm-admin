@@ -88,7 +88,15 @@ import {
   SwitchButton,
   RefreshLeft,
   Grid,
-  List
+  List,
+  
+  // 新增图标
+  Present,
+  ShoppingBag,
+  ShoppingCart,
+  GoodsFilled,
+  Goods,
+  Trophy,
 } from '@element-plus/icons-vue'
 
 // 图标映射对象
@@ -186,7 +194,18 @@ const iconMap = {
   SwitchButton,
   RefreshLeft,
   Grid,
-  List
+  List,
+  
+  // 新增图标
+  Present,
+  ShoppingBag,
+  ShoppingCart,
+  GoodsFilled,
+  Goods,
+  Trophy,
+  
+  // 为认养管理使用StarFilled作为Heart的替代
+  Heart: StarFilled,
 }
 
 // 获取图标组件的函数
@@ -263,5 +282,11 @@ export {
   SwitchButton,
   RefreshLeft,
   Grid,
-  List
+  List,
+  Present,
+  ShoppingBag,
+  ShoppingCart,
+  GoodsFilled,
+  Goods,
+  Trophy
 } 
