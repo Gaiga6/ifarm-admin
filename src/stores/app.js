@@ -5,6 +5,10 @@ export const useAppStore = defineStore('app', {
     // 侧边栏状态
     sidebarCollapsed: false,
     
+    // 响应式状态
+    isMobile: false,
+    device: 'desktop', // desktop | tablet | mobile
+    
     // 语言设置
     language: 'zh-CN',
     
@@ -61,7 +65,15 @@ export const useAppStore = defineStore('app', {
     
     // 获取侧边栏宽度
     sidebarWidth: (state) => {
+      if (state.isMobile) {
+        return state.sidebarCollapsed ? '0px' : '240px'
+      }
       return state.sidebarCollapsed ? '64px' : '240px'
+    },
+    
+    // 是否显示侧边栏遮罩
+    showSidebarMask: (state) => {
+      return state.isMobile && !state.sidebarCollapsed
     },
     
     // 获取当前语言配置
@@ -83,6 +95,41 @@ export const useAppStore = defineStore('app', {
     // 设置侧边栏状态
     setSidebarCollapsed(collapsed) {
       this.sidebarCollapsed = collapsed
+    },
+    
+    // 检测设备类型
+    checkDevice(forceUpdate = false) {
+      const width = window.innerWidth
+      const previousDevice = this.device
+      
+      if (width < 768) {
+        this.device = 'mobile'
+        this.isMobile = true
+        // 只在设备类型改变或强制更新时调整侧边栏
+        if (forceUpdate || previousDevice !== 'mobile') {
+          this.sidebarCollapsed = true
+        }
+      } else if (width < 1024) {
+        this.device = 'tablet'
+        this.isMobile = false
+        // 只在设备类型改变或强制更新时调整侧边栏
+        if (forceUpdate || previousDevice !== 'tablet') {
+          this.sidebarCollapsed = true
+        }
+      } else {
+        this.device = 'desktop'
+        this.isMobile = false
+        // 桌面端保持用户设置，除非是首次加载且用户没有设置过
+        // 这里不强制修改用户的选择
+      }
+    },
+    
+    // 设置移动端状态
+    setMobileState(isMobile) {
+      this.isMobile = isMobile
+      if (isMobile) {
+        this.sidebarCollapsed = true
+      }
     },
     
     // 切换主题
@@ -132,6 +179,11 @@ export const useAppStore = defineStore('app', {
       html.style.setProperty('--primary-light', lightColor)
       html.style.setProperty('--primary-mid', midColor)
       html.style.setProperty('--primary-dark', darkColor)
+      
+      // 同时更新Element Plus主题色
+      if (window.setElementPlusTheme) {
+        window.setElementPlusTheme(color)
+      }
     },
     
     // 颜色加亮
@@ -239,6 +291,16 @@ export const useAppStore = defineStore('app', {
       this.cachedViews = this.cachedViews.filter(name => {
         return this.visitedViews.some(v => v.name === name)
       })
+    },
+
+    // 初始化主题（应用程序启动时调用）
+    initializeTheme() {
+      // 应用主题
+      this.applyTheme()
+      // 应用主题色
+      this.setPrimaryColor(this.primaryColor)
+      // 检测设备类型，但不强制更新侧边栏状态（保持用户设置）
+      this.checkDevice(false)
     }
   },
   
@@ -254,7 +316,9 @@ export const useAppStore = defineStore('app', {
       'layoutMode',
       'watermark',
       'tagsView',
-      'breadcrumb'
+      'breadcrumb',
+      'visitedViews',
+      'cachedViews'
     ]
   }
 }) 

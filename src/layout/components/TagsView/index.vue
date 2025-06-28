@@ -25,6 +25,29 @@
       </div>
     </el-scrollbar>
     
+    <!-- 右侧操作下拉菜单 -->
+    <el-dropdown 
+      class="tags-actions-dropdown"
+      trigger="click"
+      @command="handleActionCommand"
+    >
+      <div class="tags-action-btn">
+        <el-icon><ArrowDown /></el-icon>
+      </div>
+      <template #dropdown>
+        <el-dropdown-menu>
+          <el-dropdown-item command="closeOthers">
+            <el-icon><CircleClose /></el-icon>
+            关闭其他标签
+          </el-dropdown-item>
+          <el-dropdown-item command="closeAll">
+            <el-icon><Delete /></el-icon>
+            关闭所有标签
+          </el-dropdown-item>
+        </el-dropdown-menu>
+      </template>
+    </el-dropdown>
+    
     <!-- 右键菜单 -->
     <el-dropdown
       ref="contextMenuRef"
@@ -61,7 +84,7 @@ import { ref, computed, nextTick } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAppStore } from '@/stores'
 import { getIcon } from '@/utils/icons'
-import { Close, Refresh, CircleClose } from '@element-plus/icons-vue'
+import { Close, Refresh, CircleClose, ArrowDown, Delete } from '@element-plus/icons-vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -136,6 +159,25 @@ const handleContextMenuCommand = (command) => {
   }
 }
 
+// 处理右侧操作下拉菜单命令
+const handleActionCommand = (command) => {
+  switch (command) {
+    case 'closeOthers':
+      appStore.removeOtherViews(route.path)
+      break
+    case 'closeAll':
+      appStore.removeAllViews()
+      const visitedViews = appStore.visitedViews
+      if (visitedViews.length > 0) {
+        router.push(visitedViews[0].path)
+      } else {
+        // 如果没有剩余标签，跳转到首页
+        router.push('/dashboard')
+      }
+      break
+  }
+}
+
 // 监听路由变化，自动添加标签
 router.afterEach((to) => {
   if (to.meta?.title) {
@@ -151,10 +193,10 @@ router.afterEach((to) => {
 
 <style scoped>
 .tags-view-container {
-  height: 46px;
+  height: 52px;
   background-color: var(--bg-primary);
   border-bottom: 1px solid var(--border-color);
-  padding: 8px 16px;
+  padding: 12px 16px 8px 16px;
   display: flex;
   align-items: center;
 }
@@ -248,5 +290,74 @@ router.afterEach((to) => {
 
 .tags-view-wrapper :deep(.el-scrollbar__view) {
   height: 100%;
+}
+
+/* 右侧操作下拉菜单样式 */
+.tags-actions-dropdown {
+  margin-left: 12px;
+  flex-shrink: 0;
+}
+
+.tags-action-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-light);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tags-action-btn:hover {
+  background-color: var(--primary-light);
+  color: var(--primary-dark);
+  border-color: var(--primary-color);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(165, 214, 167, 0.3);
+}
+
+.tags-action-btn .el-icon {
+  font-size: 14px;
+}
+
+/* 下拉菜单样式覆盖 - 强制覆盖所有蓝色 */
+.tags-actions-dropdown :deep(.el-dropdown-menu) {
+  border: 1px solid var(--border-color) !important;
+  box-shadow: var(--shadow-medium) !important;
+}
+
+.tags-actions-dropdown :deep(.el-dropdown-menu__item) {
+  color: var(--text-primary) !important;
+  background-color: transparent !important;
+  transition: all 0.3s ease !important;
+}
+
+.tags-actions-dropdown :deep(.el-dropdown-menu__item:hover),
+.tags-actions-dropdown :deep(.el-dropdown-menu__item:focus) {
+  background-color: var(--primary-light) !important;
+  color: var(--primary-dark) !important;
+}
+
+.tags-actions-dropdown :deep(.el-dropdown-menu__item.is-disabled) {
+  color: var(--text-placeholder) !important;
+}
+
+.tags-actions-dropdown :deep(.el-dropdown-menu__item .el-icon) {
+  color: inherit !important;
+  margin-right: 8px !important;
+}
+
+/* 强制覆盖Element Plus的蓝色主题 */
+.tags-actions-dropdown :deep(.el-dropdown-menu__item) {
+  --el-color-primary: var(--primary-color) !important;
+  --el-color-primary-light-3: var(--primary-light) !important;
+  --el-color-primary-light-5: var(--primary-light) !important;
+  --el-color-primary-light-7: var(--primary-light) !important;
+  --el-color-primary-light-8: var(--primary-light) !important;
+  --el-color-primary-light-9: var(--primary-light) !important;
 }
 </style> 

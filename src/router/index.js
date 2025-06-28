@@ -12,6 +12,10 @@ import Product from '@/views/Product/index.vue'
 import Order from '@/views/Order/index.vue'
 import User from '@/views/User/index.vue'
 import System from '@/views/System/index.vue'
+import SystemRole from '@/views/System/Role.vue'
+import SystemPermission from '@/views/System/Permission.vue'
+import Profile from '@/views/Profile/index.vue'
+import Settings from '@/views/Settings/index.vue'
 
 const routes = [
   {
@@ -27,9 +31,30 @@ const routes = [
           title: '仪表盘',
           icon: 'Odometer'
         }
+      },
+      {
+        path: 'profile',
+        name: 'Profile',
+        component: Profile,
+        meta: {
+          title: '个人中心',
+          icon: 'User',
+          hidden: true // 隐藏在侧边栏菜单中
+        }
+      },
+      {
+        path: 'settings',
+        name: 'Settings',
+        component: Settings,
+        meta: {
+          title: '账户设置',
+          icon: 'Setting',
+          hidden: true // 隐藏在侧边栏菜单中
+        }
       }
     ]
   },
+
   {
     path: '/farm',
     component: Layout,
@@ -47,36 +72,26 @@ const routes = [
           title: '农场列表',
           icon: 'List'
         }
-      }
-    ]
-  },
-  {
-    path: '/plot',
-    component: Layout,
-    redirect: '/plot/list',
-    meta: {
-      title: '地块管理',
-      icon: 'MapLocation'
-    },
-    children: [
+      },
       {
-        path: 'list',
-        name: 'PlotList',
+        path: 'plot',
+        name: 'PlotManage',
         component: Plot,
         meta: {
-          title: '地块列表',
-          icon: 'List'
+          title: '地块管理',
+          icon: 'Grid'
         }
       }
     ]
   },
+
   {
     path: '/adoption',
     component: Layout,
     redirect: '/adoption/list',
     meta: {
-      title: '认养项目',
-      icon: 'Present'
+      title: '认养管理',
+      icon: 'Heart'
     },
     children: [
       {
@@ -84,97 +99,65 @@ const routes = [
         name: 'AdoptionList',
         component: Adoption,
         meta: {
-          title: '认养项目列表',
+          title: '认养项目',
           icon: 'List'
-        }
-      }
-    ]
-  },
-  {
-    path: '/product',
-    component: Layout,
-    redirect: '/product/category',
-    meta: {
-      title: '农产品管理',
-      icon: 'Apple'
-    },
-    children: [
-      {
-        path: 'category',
-        name: 'ProductCategory',
-        component: Product,
-        meta: {
-          title: '农产品分类',
-          icon: 'Menu'
         }
       },
       {
-        path: 'list',
-        name: 'ProductList',
+        path: 'product',
+        name: 'ProductManage',
         component: Product,
         meta: {
-          title: '农产品列表',
-          icon: 'List'
+          title: '农产品管理',
+          icon: 'GoodsFilled'
         }
-      }
-    ]
-  },
-  {
-    path: '/order',
-    component: Layout,
-    redirect: '/order/list',
-    meta: {
-      title: '订单管理',
-      icon: 'ShoppingBag'
-    },
-    children: [
+      },
       {
-        path: 'list',
-        name: 'OrderList',
+        path: 'order',
+        name: 'OrderManage',
         component: Order,
         meta: {
-          title: '订单列表',
-          icon: 'List'
+          title: '订单管理',
+          icon: 'Document'
         }
       }
     ]
   },
-  {
-    path: '/user',
-    component: Layout,
-    redirect: '/user/list',
-    meta: {
-      title: '用户管理',
-      icon: 'User'
-    },
-    children: [
-      {
-        path: 'list',
-        name: 'UserList',
-        component: User,
-        meta: {
-          title: '用户列表',
-          icon: 'List'
-        }
-      }
-    ]
-  },
+
   {
     path: '/system',
     component: Layout,
-    redirect: '/system/audit',
+    redirect: '/system/user',
     meta: {
       title: '系统管理',
       icon: 'Setting'
     },
     children: [
       {
-        path: 'audit',
-        name: 'SystemAudit',
-        component: System,
+        path: 'user',
+        name: 'SystemUser',
+        component: User,
         meta: {
-          title: '审核管理',
-          icon: 'CircleCheck'
+          title: '用户管理',
+          icon: 'User'
+        }
+      },
+      {
+        path: 'role',
+        name: 'SystemRole',
+        component: SystemRole,
+        meta: {
+          title: '角色管理',
+          icon: 'Avatar'
+        }
+      },
+      {
+        path: 'permission',
+        name: 'SystemPermission',
+        component: SystemPermission,
+        meta: {
+          title: '权限管理',
+          icon: 'Key'
         }
       }
     ]

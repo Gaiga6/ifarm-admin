@@ -88,7 +88,12 @@ import {
   SwitchButton,
   RefreshLeft,
   Grid,
-  List
+  List,
+  
+  // 新增图标
+  Present,
+  ShoppingBag,
+  ShoppingCart
 } from '@element-plus/icons-vue'
 
 // 图标映射对象
@@ -186,7 +191,12 @@ const iconMap = {
   SwitchButton,
   RefreshLeft,
   Grid,
-  List
+  List,
+  
+  // 新增图标
+  Present,
+  ShoppingBag,
+  ShoppingCart
 }
 
 // 获取图标组件的函数
@@ -263,5 +273,8 @@ export {
   SwitchButton,
   RefreshLeft,
   Grid,
-  List
+  List,
+  Present,
+  ShoppingBag,
+  ShoppingCart
 } 
