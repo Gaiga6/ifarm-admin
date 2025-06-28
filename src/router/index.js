@@ -4,18 +4,24 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Layout from '@/layout/index.vue'
 
 // 导入页面组件
-import Dashboard from '@/views/Dashboard/index.vue'
-import Farm from '@/views/Farm/index.vue'
-import Plot from '@/views/Plot/index.vue'
-import Adoption from '@/views/Adoption/index.vue'
-import Product from '@/views/Product/index.vue'
-import Order from '@/views/Order/index.vue'
-import User from '@/views/User/index.vue'
-import System from '@/views/System/index.vue'
-import SystemRole from '@/views/System/Role.vue'
-import SystemPermission from '@/views/System/Permission.vue'
-import Profile from '@/views/Profile/index.vue'
-import Settings from '@/views/Settings/index.vue'
+import Dashboard from '@/views/dashboard/index.vue'
+
+// 导入设置页面组件
+import Settings from '@/views/settings/index.vue'
+
+// 导入用户管理页面组件
+import SystemUser from '@/views/system/user/list.vue'
+
+// 导入角色管理页面组件
+import SystemRole from '@/views/system/role/list.vue'
+
+// 导入权限管理页面组件
+import SystemPermission from '@/views/system/permission/list.vue'
+
+
+// 用户模块
+// 导入用户个人中心模块
+import UserProfile from '@/views/user/profile.vue'
 
 const routes = [
   {
@@ -35,7 +41,7 @@ const routes = [
       {
         path: 'profile',
         name: 'Profile',
-        component: Profile,
+        component: UserProfile,
         meta: {
           title: '个人中心',
           icon: 'User',
@@ -55,74 +61,7 @@ const routes = [
     ]
   },
 
-  {
-    path: '/farm',
-    component: Layout,
-    redirect: '/farm/list',
-    meta: {
-      title: '农场管理',
-      icon: 'House'
-    },
-    children: [
-      {
-        path: 'list',
-        name: 'FarmList',
-        component: Farm,
-        meta: {
-          title: '农场列表',
-          icon: 'List'
-        }
-      },
-      {
-        path: 'plot',
-        name: 'PlotManage',
-        component: Plot,
-        meta: {
-          title: '地块管理',
-          icon: 'Grid'
-        }
-      }
-    ]
-  },
 
-  {
-    path: '/adoption',
-    component: Layout,
-    redirect: '/adoption/list',
-    meta: {
-      title: '认养管理',
-      icon: 'Heart'
-    },
-    children: [
-      {
-        path: 'list',
-        name: 'AdoptionList',
-        component: Adoption,
-        meta: {
-          title: '认养项目',
-          icon: 'List'
-        }
-      },
-      {
-        path: 'product',
-        name: 'ProductManage',
-        component: Product,
-        meta: {
-          title: '农产品管理',
-          icon: 'GoodsFilled'
-        }
-      },
-      {
-        path: 'order',
-        name: 'OrderManage',
-        component: Order,
-        meta: {
-          title: '订单管理',
-          icon: 'Document'
-        }
-      }
-    ]
-  },
 
   {
     path: '/system',
@@ -130,13 +69,13 @@ const routes = [
     redirect: '/system/user',
     meta: {
       title: '系统管理',
-      icon: 'Setting'
+      icon: 'Tools'
     },
     children: [
       {
         path: 'user',
         name: 'SystemUser',
-        component: User,
+        component: SystemUser,
         meta: {
           title: '用户管理',
           icon: 'User'

@@ -50,37 +50,33 @@ function filterMenuRoutes(routes) {
       return // 没有可见子路由，跳过
     }
     
-    // 如果只有一个可见子路由，将子路由提升为顶级菜单
-    if (visibleChildren.length === 1) {
+    // 如果只有一个子路由，将其提升为顶级菜单
+    if (visibleChildren.length === 1 && route.meta?.alwaysShow !== true) {
       const child = visibleChildren[0]
-      // 正确拼接路径，避免双斜杠
-      const childPath = route.path === '/' ? `/${child.path}` : `${route.path}/${child.path}`
+      // 正确拼接完整路径
+      const fullPath = route.path === '/' ? `/${child.path}` : `${route.path}/${child.path}`
       menuRoutes.push({
-        path: childPath,
+        path: fullPath, // 使用完整的绝对路径
         name: child.name,
         meta: child.meta,
-        component: child.component
+        children: []
       })
     } else {
-      // 多个子路由，保持嵌套结构
-      // 但需要检查父路由是否有 meta 信息
-      if (route.meta && !route.meta.hidden) {
-        menuRoutes.push({
-          path: route.path,
-          name: route.name,
-          meta: route.meta,
-          children: visibleChildren.map(child => {
-            // 正确拼接路径，避免双斜杠
-            const childPath = route.path === '/' ? `/${child.path}` : `${route.path}/${child.path}`
-            return {
-              path: childPath,
-              name: child.name,
-              meta: child.meta,
-              component: child.component
-            }
-          })
+      // 多个子路由，保持层级结构
+      menuRoutes.push({
+        path: route.path,
+        name: route.name,
+        meta: route.meta,
+        children: visibleChildren.map(child => {
+          // 为每个子路由也拼接完整路径
+          const fullPath = route.path === '/' ? `/${child.path}` : `${route.path}/${child.path}`
+          return {
+            path: fullPath,
+            name: child.name,
+            meta: child.meta
+          }
         })
-      }
+      })
     }
   })
   
@@ -89,21 +85,26 @@ function filterMenuRoutes(routes) {
 </script>
 
 <style scoped>
+/* 基础容器样式 */
 .sidebar-menu {
-  border: none;
-  width: 100%;
-  min-height: 100%;
+  width: 100% !important;
+  border: none !important;
 }
 
-/* 基础菜单项样式 */
+/* ==================== 展开状态样式 ==================== */
+
+/* 一级菜单项样式 */
 .sidebar-menu :deep(.el-menu-item) {
   color: var(--text-primary) !important;
   border-radius: 6px !important;
   margin: 2px 8px !important;
   width: calc(100% - 16px) !important;
-  transition: none !important;
   height: 48px !important;
   line-height: 48px !important;
+  display: flex !important;
+  align-items: center !important;
+  position: relative !important;
+  padding: 0 12px !important;
 }
 
 .sidebar-menu :deep(.el-menu-item:hover) {
@@ -117,167 +118,199 @@ function filterMenuRoutes(routes) {
   font-weight: 500 !important;
 }
 
-/* 子菜单样式 */
+/* 二级菜单容器样式 */
 .sidebar-menu :deep(.el-sub-menu) {
   margin: 2px 8px !important;
   width: calc(100% - 16px) !important;
 }
 
-/* 自定义子菜单标题 */
-.sidebar-menu :deep(.el-sub-menu__title) {
+/* 二级菜单标题样式 */
+.sidebar-menu :deep(.el-sub-menu > .el-sub-menu__title) {
   color: var(--text-primary) !important;
   border-radius: 6px !important;
-  transition: none !important;
   height: 48px !important;
   line-height: 48px !important;
+  display: flex !important;
+  align-items: center !important;
+  padding: 0 12px !important;
+}
+
+.sidebar-menu :deep(.el-sub-menu > .el-sub-menu__title:hover) {
+  background-color: var(--primary-light) !important;
+  color: var(--primary-dark) !important;
+}
+
+/* 展开状态下的图标和文字样式 */
+.sidebar-menu :deep(.menu-icon) {
+  font-size: 18px !important;
+  margin-right: 8px !important;
+  color: inherit !important;
+  width: 18px !important;
+  height: 18px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.sidebar-menu :deep(.menu-text) {
+  font-size: 14px !important;
+  color: inherit !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+/* ==================== 折叠状态样式 ==================== */
+
+/* 折叠状态下的容器 */
+.sidebar-menu.el-menu--collapse {
+  width: 64px !important;
+}
+
+/* 折叠状态：重置所有菜单项容器 */
+.sidebar-menu.el-menu--collapse :deep(.el-menu-item),
+.sidebar-menu.el-menu--collapse :deep(.el-sub-menu),
+.sidebar-menu.el-menu--collapse :deep(.el-sub-menu > .el-sub-menu__title) {
+  margin: 0 !important;
   padding: 0 !important;
+  width: 64px !important;
+  border-radius: 0 !important;
 }
 
-.sidebar-menu :deep(.el-sub-menu__title:hover) {
-  background-color: var(--primary-light) !important;
-  color: var(--primary-dark) !important;
-}
-
-/* 隐藏默认的箭头图标 */
-.sidebar-menu :deep(.el-sub-menu__icon-arrow) {
-  display: none !important;
-}
-
-/* 自定义标题内容布局 */
-.menu-title-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  height: 100%;
-  padding: 0 16px;
-}
-
-.menu-left {
-  display: flex;
-  align-items: center;
-  flex: 1;
-}
-
-.menu-icon {
-  font-size: 16px;
-  margin-right: 8px;
-  color: inherit;
-}
-
-.menu-text {
-  font-size: 14px;
-  color: inherit;
-}
-
-.menu-arrow {
-  font-size: 12px;
-  color: var(--text-secondary);
-  transition: transform 0.3s ease;
-}
-
-/* 展开状态的箭头旋转 */
-.sidebar-menu :deep(.el-sub-menu.is-opened) .menu-arrow {
-  transform: rotate(180deg);
-  color: var(--primary-color);
-}
-
-/* 子菜单列表 */
-.sidebar-menu :deep(.el-menu--inline) {
-  background-color: var(--bg-primary) !important;
+/* 折叠状态：菜单项容器完美居中 */
+.sidebar-menu.el-menu--collapse :deep(.el-menu-item),
+.sidebar-menu.el-menu--collapse :deep(.el-sub-menu > .el-sub-menu__title) {
+  height: 48px !important;
+  margin: 2px 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: relative !important;
+  text-align: center !important;
   border-radius: 6px !important;
-  margin: 2px 8px !important;
-  padding: 4px 0 !important;
+  background-color: transparent !important;
 }
 
-.sidebar-menu :deep(.el-menu--inline .el-menu-item) {
-  margin: 1px 8px !important;
-  width: calc(100% - 16px) !important;
-  padding-left: 48px !important;
-  height: 40px !important;
-  line-height: 40px !important;
+/* 折叠状态：强制图标水平垂直居中 */
+.sidebar-menu.el-menu--collapse :deep(.el-menu-item) .el-icon,
+.sidebar-menu.el-menu--collapse :deep(.el-menu-item) .menu-icon,
+.sidebar-menu.el-menu--collapse :deep(.el-sub-menu > .el-sub-menu__title) .el-icon,
+.sidebar-menu.el-menu--collapse :deep(.el-sub-menu > .el-sub-menu__title) .menu-icon {
+  /* 完全重置 */
+  margin: 0 !important;
+  padding: 0 !important;
+  left: auto !important;
+  right: auto !important;
+  top: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+  
+  /* 尺寸设置 */
+  width: 20px !important;
+  height: 20px !important;
+  font-size: 20px !important;
+  
+  /* Flexbox居中 */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  
+  /* 定位居中 */
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%) !important;
 }
 
-.sidebar-menu :deep(.el-menu--inline .el-menu-item:hover) {
-  background-color: var(--primary-light) !important;
-  color: var(--primary-dark) !important;
+/* 折叠状态：确保图标在最顶层 */
+.sidebar-menu.el-menu--collapse :deep(.el-icon) {
+  z-index: 10 !important;
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  width: 20px !important;
+  height: 20px !important;
+  font-size: 20px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
-.sidebar-menu :deep(.el-menu--inline .el-menu-item.is-active) {
+/* 折叠状态：彻底隐藏所有文字 */
+.sidebar-menu.el-menu--collapse :deep(span:not(.el-icon)),
+.sidebar-menu.el-menu--collapse :deep(.menu-text),
+.sidebar-menu.el-menu--collapse :deep(.el-menu-item__title),
+.sidebar-menu.el-menu--collapse :deep(.el-sub-menu__icon-arrow) {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  position: absolute !important;
+  left: -9999px !important;
+  top: -9999px !important;
+}
+
+/* 折叠状态下hover和active样式完全一致 */
+.sidebar-menu.el-menu--collapse :deep(.el-menu-item.is-active),
+.sidebar-menu.el-menu--collapse :deep(.el-menu-item:hover),
+.sidebar-menu.el-menu--collapse :deep(.el-sub-menu > .el-sub-menu__title.is-active),
+.sidebar-menu.el-menu--collapse :deep(.el-sub-menu > .el-sub-menu__title:hover) {
   background-color: var(--primary-light) !important;
   color: var(--primary-dark) !important;
   font-weight: 500 !important;
 }
 
-/* 图标样式 */
-.sidebar-menu :deep(.el-icon) {
-  font-size: 16px !important;
-  margin-right: 8px !important;
-  color: inherit !important;
+/* 折叠状态下弹出子菜单的active和hover样式一致 */
+.sidebar-menu.el-menu--collapse :deep(.el-menu--popup .el-menu-item.is-active),
+.sidebar-menu.el-menu--collapse :deep(.el-menu--popup .el-menu-item:hover) {
+  background-color: var(--primary-light) !important;
+  color: var(--primary-dark) !important;
+  font-weight: 500 !important;
 }
 
-/* 收起状态样式 */
-.sidebar-menu.el-menu--collapse :deep(.el-menu-item) {
-  margin: 2px auto !important;
-  width: 48px !important;
-  height: 48px !important;
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  padding: 0 !important;
-  text-align: center !important;
-}
+/* ==================== 动画和交互 ==================== */
 
-.sidebar-menu.el-menu--collapse :deep(.el-sub-menu__title) {
-  margin: 2px auto !important;
-  width: 48px !important;
-  height: 48px !important;
-  padding: 0 !important;
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-}
-
-.sidebar-menu.el-menu--collapse :deep(.el-menu-item .el-icon) {
-  margin-right: 0 !important;
-  margin-left: 0 !important;
-}
-
-.sidebar-menu.el-menu--collapse .menu-title-content {
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  padding: 0 !important;
-  width: 48px !important;
-  height: 48px !important;
-}
-
-.sidebar-menu.el-menu--collapse .menu-left {
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  width: 48px !important;
-  height: 48px !important;
-}
-
-.sidebar-menu.el-menu--collapse .menu-icon {
-  margin-right: 0 !important;
-  margin-left: 0 !important;
-}
-
-.sidebar-menu.el-menu--collapse .menu-text,
-.sidebar-menu.el-menu--collapse .menu-arrow {
-  display: none !important;
-}
-
-/* 移除所有动画效果 */
+/* 禁用不必要的动画 */
 .sidebar-menu :deep(*) {
   transition: none !important;
   animation: none !important;
 }
 
-/* 保留箭头旋转动画 */
-.menu-arrow {
-  transition: transform 0.3s ease !important;
+/* 保留hover动画 */
+.sidebar-menu :deep(.el-menu-item),
+.sidebar-menu :deep(.el-sub-menu > .el-sub-menu__title) {
+  transition: background-color 0.3s ease !important;
+}
+
+/* 确保tooltip正常工作 */
+.sidebar-menu.el-menu--collapse :deep(.el-menu-item),
+.sidebar-menu.el-menu--collapse :deep(.el-sub-menu > .el-sub-menu__title) {
+  overflow: visible !important;
+}
+
+/* ==================== 强制覆盖Element Plus默认样式 ==================== */
+
+/* 移除Element Plus的默认间距和定位 */
+.sidebar-menu.el-menu--collapse .el-menu-item,
+.sidebar-menu.el-menu--collapse .el-sub-menu .el-sub-menu__title {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  text-align: center !important;
+}
+
+/* 确保图标完美居中显示 */
+.sidebar-menu.el-menu--collapse .el-menu-item .el-icon,
+.sidebar-menu.el-menu--collapse .el-sub-menu .el-sub-menu__title .el-icon {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%) !important;
 }
 </style> 
