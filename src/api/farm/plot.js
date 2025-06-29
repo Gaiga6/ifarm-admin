@@ -121,4 +121,38 @@ export const checkPlotNameExists = (farmId, name, excludeId = null) => {
     params.excludeId = excludeId
   }
   return get('/plot/check-name', params)
-} 
+}
+
+/**
+ * 获取地块列表（用于地块管理页面）
+ * @param {Object} params 查询参数
+ * @param {number} params.page 页码
+ * @param {number} params.size 每页大小
+ * @param {string} params.plotName 地块名称
+ * @param {string} params.cropType 作物类型
+ * @param {string} params.plantingStatus 种植状态
+ * @returns {Promise} 分页结果
+ */
+export const getPlotList = (params) => {
+  return request.get('/plot/list', params)
+}
+
+/**
+ * 批量删除地块
+ * @param {Array<number>} ids 地块ID列表
+ * @returns {Promise} 响应结果
+ */
+export const batchDeletePlots = (ids) => {
+  return request.delete('/plot/batch', { data: { ids } })
+}
+
+/**
+ * 批量更新地块状态
+ * @param {Object} data 更新数据
+ * @param {Array<number>} data.ids 地块ID列表
+ * @param {string} data.plantingStatus 种植状态
+ * @returns {Promise} 响应结果
+ */
+export const batchUpdatePlotStatus = (data) => {
+  return request.put('/plot/batch/status', data)
+}

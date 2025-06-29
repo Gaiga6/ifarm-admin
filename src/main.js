@@ -13,6 +13,9 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 // 自定义主题样式
 import './styles/theme.css'
 
+// 通用样式
+import './styles/common.css'
+
 // 强制覆盖Element Plus的CSS变量
 const setElementPlusTheme = (primaryColor = '#A5D6A7') => {
   const root = document.documentElement

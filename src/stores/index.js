@@ -7,4 +7,5 @@ pinia.use(createPersistedState())
 export default pinia
 
 // 导出所有store
-export { useAppStore } from './app.js' 
+export { useAppStore } from './app.js'
+export { useFarmStore } from './farm.js'

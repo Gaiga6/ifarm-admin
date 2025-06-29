@@ -9,9 +9,4 @@ export * as filesApi from './files.js'
 export * as migrationApi from './migration.js'
 
 // 健康检查 API
-export * as healthApi from './health.js'
-
-// 默认导出（方便使用）
-export { default as filesService } from './files.js'
-export { default as migrationService } from './migration.js'
-export { default as healthService } from './health.js' 
+export * as healthApi from './health.js' 

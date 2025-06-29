@@ -64,16 +64,33 @@ export const deletePermission = (id) => {
 }
 
 /**
+ * 分页查询权限列表
+ * @param {Object} params 查询参数
+ * @param {number} params.current 当前页
+ * @param {number} params.size 每页大小
+ * @param {string} params.permissionName 权限名称（模糊查询）
+ * @param {string} params.permissionCode 权限编码（模糊查询）
+ * @param {number} params.permissionType 权限类型
+ * @param {number} params.status 状态
+ * @returns {Promise} 分页权限列表
+ */
+export const getPermissionPage = (params = {}) => {
+  console.log('分页查询权限列表:', params)
+  return get('/permission/page', params)
+}
+
+/**
  * 获取权限树形列表
  * @param {Object} params 查询参数
- * @param {string} params.permissionName 权限名称（模糊查询）
+ * @param {string} params.permissionName 权限名称
+ * @param {string} params.permissionCode 权限编码
  * @param {string} params.type 权限类型
  * @param {number} params.status 状态
  * @returns {Promise} 权限树形列表
  */
 export const getPermissionTree = (params = {}) => {
   console.log('获取权限树形列表:', params)
-  return get('/permission/tree', params)
+  return request.get('/permission/tree', params)
 }
 
 /**
@@ -113,7 +130,7 @@ export const getUserPermissions = (userId) => {
  */
 export const getRolePermissions = (roleId) => {
   console.log('获取角色权限列表:', roleId)
-  return get(`/permission/role/${roleId}`)
+  return request.get(`/permission/role/${roleId}`)
 }
 
 /**
@@ -137,4 +154,4 @@ export const checkPermissionCodeExists = (permissionCode, excludeId = null) => {
   const params = { permissionCode }
   if (excludeId) params.excludeId = excludeId
   return get('/permission/check-code', params)
-} 
+}

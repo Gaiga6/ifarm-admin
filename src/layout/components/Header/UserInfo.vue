@@ -17,10 +17,7 @@
           <el-icon><Setting /></el-icon>
           账户设置
         </el-dropdown-item>
-        <el-dropdown-item divided command="logout">
-          <el-icon><SwitchButton /></el-icon>
-          退出登录
-        </el-dropdown-item>
+
       </el-dropdown-menu>
     </template>
   </el-dropdown>
@@ -30,7 +27,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAppStore } from '@/stores'
-import { User, ArrowDown, Setting, SwitchButton } from '@element-plus/icons-vue'
+import { User, ArrowDown, Setting } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 
 const router = useRouter()
@@ -67,27 +64,7 @@ const handleCommand = async (command) => {
         icon: 'Setting'
       })
       break
-    case 'logout':
-      try {
-        await ElMessageBox.confirm('确定要退出登录吗？', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        })
-        
-        // 清除所有标签页
-        appStore.removeAllViews()
-        
-        // 这里可以添加退出登录的逻辑
-        // 比如清除token、重定向到登录页等
-        ElMessage.success('退出登录成功')
-        
-        // 跳转到首页
-        router.push('/dashboard')
-      } catch {
-        // 用户取消
-      }
-      break
+
   }
 }
 </script>
@@ -149,4 +126,4 @@ const handleCommand = async (command) => {
     padding: 6px;
   }
 }
-</style> 
+</style>

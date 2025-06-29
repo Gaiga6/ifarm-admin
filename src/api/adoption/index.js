@@ -3,7 +3,4 @@
  */
 
 // 认养项目管理 API
-export * as adoptionApi from './adoption.js'
-
-// 默认导出（方便使用）
-export { default as adoptionService } from './adoption.js' 
+export * as adoptionApi from './adoption.js' 

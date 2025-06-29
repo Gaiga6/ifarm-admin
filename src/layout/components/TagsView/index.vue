@@ -117,7 +117,9 @@ const closeTag = (tag) => {
 // 打开右键菜单
 const openContextMenu = (tag, e) => {
   selectedTag.value = tag
-  triggerRef.value = {
+  
+  // 创建一个更完整的虚拟DOM元素引用
+  const virtualElement = {
     getBoundingClientRect: () => ({
       x: e.clientX,
       y: e.clientY,
@@ -127,8 +129,17 @@ const openContextMenu = (tag, e) => {
       left: e.clientX,
       right: e.clientX,
       bottom: e.clientY
-    })
+    }),
+    // 添加其他可能需要的DOM属性
+    offsetWidth: 0,
+    offsetHeight: 0,
+    clientWidth: 0,
+    clientHeight: 0,
+    scrollWidth: 0,
+    scrollHeight: 0
   }
+  
+  triggerRef.value = virtualElement
   
   nextTick(() => {
     contextMenuRef.value?.handleOpen()
@@ -360,4 +371,4 @@ router.afterEach((to) => {
   --el-color-primary-light-8: var(--primary-light) !important;
   --el-color-primary-light-9: var(--primary-light) !important;
 }
-</style> 
+</style>

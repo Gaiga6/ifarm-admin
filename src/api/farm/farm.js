@@ -164,4 +164,12 @@ export const getFarmStats = (ownerId = null) => {
     params.ownerId = ownerId
   }
   return get('/farm/stats', params)
-} 
+}
+
+/**
+ * 获取当前用户的农场信息
+ * @returns {Promise} 农场信息
+ */
+export const getCurrentUserFarm = () => {
+  return request.get('/farm/current')
+}

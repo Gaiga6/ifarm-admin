@@ -98,7 +98,7 @@ export const updateRoleStatus = (id, status) => {
  */
 export const assignPermissions = (id, permissionIds) => {
   console.log('为角色分配权限:', { id, permissionIds })
-  return put(`/role/${id}/permissions`, permissionIds)
+  return request.put(`/role/${id}/permissions`, permissionIds)
 }
 
 /**
@@ -109,4 +109,4 @@ export const assignPermissions = (id, permissionIds) => {
 export const batchDeleteRoles = (roleIds) => {
   console.log('批量删除角色:', roleIds)
   return del('/role/batch', {}, { data: roleIds })
-} 
+}

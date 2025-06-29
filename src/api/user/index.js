@@ -12,10 +12,4 @@ export * as addressApi from './address.js'
 export * as roleApi from './role.js'
 
 // 权限管理 API
-export * as permissionApi from './permission.js'
-
-// 默认导出（方便使用）
-export { default as userService } from './user.js'
-export { default as addressService } from './address.js'
-export { default as roleService } from './role.js'
-export { default as permissionService } from './permission.js' 
+export * as permissionApi from './permission.js' 

@@ -26,6 +26,9 @@ export * as planting from './planting/index.js'
 // 农产品管理模块
 export * as product from './product/index.js'
 
+// 认证模块
+
+
 // 创建主API对象，方便使用
 const api = {
   user: () => import('./user/index.js'),
@@ -35,7 +38,8 @@ const api = {
   logistics: () => import('./logistics/index.js'),
   order: () => import('./order/index.js'),
   planting: () => import('./planting/index.js'),
-  product: () => import('./product/index.js')
+  product: () => import('./product/index.js'),
+
 }
 
-export default api 
+export default api

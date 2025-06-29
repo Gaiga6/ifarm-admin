@@ -1,0 +1,119 @@
+/* 通用页面样式 */
+.page-container {
+  padding: 20px;
+}
+
+/* 搜索栏样式 */
+.search-bar {
+  margin-bottom: 20px;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #e4e7ed;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* 操作栏样式 */
+.toolbar {
+  margin-bottom: 20px;
+  padding: 16px 0;
+  border-bottom: 1px solid #e4e7ed;
+}
+
+.toolbar-grid {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.toolbar-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  background: transparent;
+  border: 1px solid #dcdfe6;
+  color: #606266;
+}
+
+.toolbar-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background: #f5f7fa;
+}
+
+.toolbar-btn.el-button--primary {
+  background: #409eff;
+  border-color: #409eff;
+  color: #ffffff;
+}
+
+.toolbar-btn.el-button--primary:hover {
+  background: #66b1ff;
+  border-color: #66b1ff;
+}
+
+.toolbar-btn.el-button--danger {
+  background: #f56c6c;
+  border-color: #f56c6c;
+  color: #ffffff;
+}
+
+.toolbar-btn.el-button--danger:hover {
+  background: #f78989;
+  border-color: #f78989;
+}
+
+.toolbar-btn.el-button--danger:disabled {
+  background: #f5f7fa;
+  border-color: #e4e7ed;
+  color: #c0c4cc;
+  cursor: not-allowed;
+}
+
+.toolbar-btn.el-button--danger:disabled:hover {
+  transform: none;
+  box-shadow: none;
+  background: #f5f7fa;
+}
+
+/* 分页样式 */
+.pagination {
+  margin-top: 20px;
+  text-align: right;
+}
+
+/* 表格样式优化 */
+.el-table {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.el-table th {
+  background: #fafafa;
+  font-weight: 600;
+}
+
+/* 头像样式 */
+.user-avatar {
+  border-radius: 50%;
+  border: 2px solid #e4e7ed;
+}
+
+/* 表单样式 */
+.el-form-item {
+  margin-bottom: 18px;
+}
+
+/* 卡片样式 */
+.el-card {
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.el-card__body {
+  padding: 20px;
+} 
